@@ -2,6 +2,8 @@ package io.quarkiverse.renarde.security;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -46,6 +48,12 @@ public class RenardeSecurity {
 
     @ConfigProperty(name = "quarkus.renarde.auth.location-cookie")
     String locationCookie;
+
+    @ConfigProperty(name = "quarkus.renarde.auth.location-cookie.enabled")
+    boolean locationCookieEnabled;
+
+    @ConfigProperty(name = "quarkus.renarde.auth.redirect-query-param")
+    String redirectQueryParam;
 
     @Inject
     HttpServerRequest request;
@@ -194,9 +202,19 @@ public class RenardeSecurity {
             // in there being two, which is invalid HTTP
             response.headers().remove(HttpHeaders.LOCATION);
         }
-        ResponseBuilder builder = Response.seeOther(URI.create(config.getLoginPage()));
+
+        String redirectUri;
+        if (locationCookieEnabled) {
+            redirectUri = config.getLoginPage();
+        } else {
+            redirectUri = "%s?%s=%s".formatted(config.getLoginPage(), redirectQueryParam,
+                    URLEncoder.encode(request.absoluteURI(), StandardCharsets.UTF_8));
+        }
+
+        ResponseBuilder builder = Response.seeOther(URI.create(redirectUri));
         builder.cookie(makeLogoutCookies());
-        builder.cookie(saveURICookie());
+        if (locationCookieEnabled)
+            builder.cookie(saveURICookie());
 
         flash.flash("message", message);
 

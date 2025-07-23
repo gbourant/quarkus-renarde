@@ -7,6 +7,27 @@ h|[.header-title]##Configuration property##
 h|Type
 h|Default
 
+a|icon:lock[title=Fixed at build time] [[quarkus-renarde_quarkus-renarde-auth-location-cookie-enabled]] [.property-path]##link:#quarkus-renarde_quarkus-renarde-auth-location-cookie-enabled[`quarkus.renarde.auth.location-cookie.enabled`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.renarde.auth.location-cookie.enabled+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+Whether the quarkus.renarde.auth.location-cookie is enabled.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_RENARDE_AUTH_LOCATION_COOKIE_ENABLED+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_RENARDE_AUTH_LOCATION_COOKIE_ENABLED+++`
+endif::add-copy-button-to-env-var[]
+--
+|boolean
+|`true`
+
 a|icon:lock[title=Fixed at build time] [[quarkus-renarde_quarkus-renarde-auth-location-cookie]] [.property-path]##link:#quarkus-renarde_quarkus-renarde-auth-location-cookie[`quarkus.renarde.auth.location-cookie`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.renarde.auth.location-cookie+++[]
@@ -27,6 +48,27 @@ endif::add-copy-button-to-env-var[]
 --
 |string
 |`quarkus-redirect-location`
+
+a|icon:lock[title=Fixed at build time] [[quarkus-renarde_quarkus-renarde-auth-redirect-query-param]] [.property-path]##link:#quarkus-renarde_quarkus-renarde-auth-redirect-query-param[`quarkus.renarde.auth.redirect-query-param`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.renarde.auth.redirect-query-param+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+Option to control the name of the redirect query param used to redirect the user back to where he wants to get access to.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_RENARDE_AUTH_REDIRECT_QUERY_PARAM+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_RENARDE_AUTH_REDIRECT_QUERY_PARAM+++`
+endif::add-copy-button-to-env-var[]
+--
+|string
+|`redirect_uri`
 
 |===
 

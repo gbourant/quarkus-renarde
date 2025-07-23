@@ -1,5 +1,8 @@
 package io.quarkiverse.renarde.util;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 import jakarta.annotation.Priority;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -33,6 +36,12 @@ public class RenardeJWTAuthMechanism extends JWTAuthMechanism {
 
     @ConfigProperty(name = "quarkus.renarde.auth.location-cookie")
     String locationCookie;
+
+    @ConfigProperty(name = "quarkus.renarde.auth.location-cookie.enabled")
+    boolean locationCookieEnabled;
+
+    @ConfigProperty(name = "quarkus.renarde.auth.redirect-query-param")
+    String redirectQueryParam;
 
     // for CDI proxy
     RenardeJWTAuthMechanism() {
@@ -72,9 +81,16 @@ public class RenardeJWTAuthMechanism extends JWTAuthMechanism {
                     config.getLoginPage());
             return super.getChallenge(context);
         } else {
-            // we need to store the URL
-            storeInitialLocation(context);
-            return getRedirect(context, config.getLoginPage());
+            String redirectUri;
+            if (locationCookieEnabled) {
+                // we need to store the URL
+                storeInitialLocation(context);
+                redirectUri = config.getLoginPage();
+            } else {
+                redirectUri = "%s?%s=%s".formatted(config.getLoginPage(), redirectQueryParam,
+                        URLEncoder.encode(context.request().absoluteURI(), StandardCharsets.UTF_8));
+            }
+            return getRedirect(context, redirectUri);
         }
     }
 }
