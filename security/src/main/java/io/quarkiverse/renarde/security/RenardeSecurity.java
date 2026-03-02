@@ -159,7 +159,8 @@ public class RenardeSecurity {
 
         // Named tenants
         for (String tenant : tenants) {
-            cookies.add(invalidateCookie(oidcCookie + "_" + tenant));
+            // Replaces characters that are not valid in cookie names per RFC 6265 with underscores
+            cookies.add(invalidateCookie(oidcCookie + tenant.replace('<', '_').replace('>', '_')));
         }
 
         // Manual
